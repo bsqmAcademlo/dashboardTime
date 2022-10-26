@@ -1,8 +1,6 @@
 import { dataTime } from "./data.js";
 
-const item_principal = document.querySelector(".item_principal");
-const itemPrincipalMenu = document.querySelector(".item_principal-menu");
-const lis = document.querySelectorAll(".item_principal-menu li");
+const dashboard = document.querySelector("#dashboard");
 
 function dataFilter(filter = "daily") {
     return dataTime.map((data) => {
@@ -47,14 +45,33 @@ function printItem(times) {
 function printItems(filter) {
     const times = dataFilter(filter);
 
-    if (filter) {
-        const item = document.querySelectorAll(".item");
-        item.forEach((i) => i.remove());
-        item_principal.insertAdjacentHTML("afterend", printItem(times));
-    } else {
-        item_principal.insertAdjacentHTML("afterend", printItem(times));
-    }
+    let html = `
+    <div class="item_principal">
+        <div class="item_principal-header">
+            <div class="item_principal-img">
+                <img src="./src/images/image-jeremy.png" alt="jeremy">
+            </div>
+            <div>
+                <h3>Report for</h3>
+                <h2>Jeremy Robson</h2>
+            </div>
+        </div>
+        <ul class="item_principal-menu">
+            <li class="li_active" id="daily">Daily</li>
+            <li id="weekly">Weekly</li>
+            <li id="monthly">Monthly</li>
+        </ul>
+    </div>
+    ${printItem(times)}
+    `;
+
+    dashboard.innerHTML = html;
 }
+
+printItems();
+
+const itemPrincipalMenu = document.querySelector(".item_principal-menu");
+const lis = document.querySelectorAll(".item_principal-menu li");
 
 itemPrincipalMenu.addEventListener("click", (e) => {
     if (e.target.id) {
@@ -69,5 +86,3 @@ itemPrincipalMenu.addEventListener("click", (e) => {
         e.target.classList.add("li_active");
     }
 });
-
-printItems();
